@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace jalgoarena_judge_c_
+namespace JAlgoArena.Judge.CSharp.Api
 {
     public class Startup
     {

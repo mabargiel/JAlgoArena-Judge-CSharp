@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
-namespace jalgoarena_judge_c_.Controllers
+namespace JAlgoArena.Judge.CSharp.Api
 {
     [Route("api/[controller]")]
     public class ValuesController : Controller

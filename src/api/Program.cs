@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace jalgoarena_judge_c_
+namespace JAlgoArena.Judge.CSharp.Api
 {
     public class Program
     {
