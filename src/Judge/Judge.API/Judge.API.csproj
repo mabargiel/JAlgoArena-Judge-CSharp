@@ -17,4 +17,8 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Judge.Infrastructure\Judge.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
