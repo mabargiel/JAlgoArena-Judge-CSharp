@@ -28,7 +28,7 @@ namespace Judge.UnitTests
         [Fact]
         public void GivenIdSubmitReturnsJudgeResult() 
         {
-            var okResult = Assert.IsType<OkObjectResult>(_controller.Submit("test_problem"));
+            var okResult = Assert.IsType<OkObjectResult>(_controller.Submit("test_problem", new JudgeRequestDto()));
             okResult.StatusCode.ShouldBe(200);
             var valueResult = Assert.IsType<JudgeResultDto>(okResult.Value);
         }
