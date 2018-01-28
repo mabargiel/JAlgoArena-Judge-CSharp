@@ -1,9 +1,10 @@
-using System;
 using Judge.API.Models;
+using Judge.Infrastructure.ProblemsSchema;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Judge.API.Controllers
 {
+    /// <inheritdoc />
     /// <summary>
     /// Problems resource web api
     /// </summary>
@@ -13,7 +14,7 @@ namespace Judge.API.Controllers
         /// <summary>
         /// Returns all problems
         /// </summary>
-        /// <returns>A <see cref="Problem"> array</returns>
+        /// <returns>A <see cref="Problem"/> array</returns>
         [HttpGet]
         public IActionResult Get ()
         {
@@ -25,7 +26,7 @@ namespace Judge.API.Controllers
         /// Returns a problem specified by Id param
         /// </summary>
         /// <param name="id">Id of a problem</param>
-        /// <returns>A <see cref="JudgeResultDto"> by specified Id</returns>
+        /// <returns>A <see cref="JudgeResultDto"/> by specified Id</returns>
         [HttpGet ("{id}")]
         public IActionResult GetById (string id)
         {
@@ -39,7 +40,7 @@ namespace Judge.API.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpPost ("{id}/submit")]
-        public IActionResult Submit (string id)
+        public IActionResult Submit (string id, [FromBody] JudgeRequestDto judgeRequest)
         {
             //TODO
             return Ok (new JudgeResultDto ());
