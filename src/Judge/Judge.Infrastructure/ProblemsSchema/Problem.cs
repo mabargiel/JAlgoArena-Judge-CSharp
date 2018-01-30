@@ -2,23 +2,11 @@ using System.Collections.Generic;
 
 namespace Judge.Infrastructure.ProblemsSchema
 {
-
     //read only
     public class Problem
     {
-        public string Id { get; }
-        public string Title { get; }
-        public string Description { get; }
-        public int TimeLimit { get; }
-        public int MemoryLimit { get; }
-        public Function Function { get; }
-        public List<TestCase> TestCases { get; }
-        public string SkeletonCode { get; }
-        public int Level { get; }
-
-        public Problem (string id, string title, string description, int timeLimit,
-            int memoryLimit, Function function, List<TestCase> testCases,
-            string skeletonCode, int level)
+        public Problem(string id, string title, string description, int timeLimit,
+            int memoryLimit, Function function, List<TestCase> testCases, int level)
         {
             Id = id;
             Title = title;
@@ -27,8 +15,23 @@ namespace Judge.Infrastructure.ProblemsSchema
             MemoryLimit = memoryLimit;
             Function = function;
             TestCases = testCases;
-            SkeletonCode = skeletonCode;
+            SkeletonCode = null;
             Level = level;
         }
+
+        public Problem()
+        {
+            //For RestClient
+        }
+
+        public string Id { get; }
+        public string Title { get; }
+        public string Description { get; }
+        public int TimeLimit { get; }
+        public int MemoryLimit { get; }
+        public Function Function { get; }
+        public List<TestCase> TestCases { get; }
+        public string SkeletonCode { get; set; }
+        public int Level { get; }
     }
 }
