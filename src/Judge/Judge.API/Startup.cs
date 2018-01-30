@@ -44,7 +44,7 @@ namespace Judge.API
             services.AddTransient<IProblemsRepository, CachedProblemsRepository>();
 
             //TODO EXTRACT IMPLEMENTATION. Url must be parametrized for problems (through eureka?)
-            services.AddSingleton<IRestClient>(new RestClient("localhost:5002")); 
+            services.AddSingleton<IRestClient>(new RestClient("localhost:5002"));
 
             //TODO EXTRACT IMPLEMENTATION. Cache should be deployed locally (out of containers?)
             services.AddSingleton<IRedisClient>(new RedisClient());

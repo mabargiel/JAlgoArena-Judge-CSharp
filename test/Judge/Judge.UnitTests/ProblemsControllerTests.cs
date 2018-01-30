@@ -54,7 +54,8 @@ namespace Judge.UnitTests
         [Fact]
         public async Task SubmitExecutesJudgeAndReturnsJudgeResult()
         {
-            var okResult = Assert.IsType<OkObjectResult>(await _controller.Submit(_someProblemId, new JudgeRequestDto()));
+            var okResult =
+                Assert.IsType<OkObjectResult>(await _controller.Submit(_someProblemId, new JudgeRequestDto()));
             okResult.StatusCode.ShouldBe(200);
             var valueResult = Assert.IsType<JudgeResultDto>(okResult.Value);
         }
