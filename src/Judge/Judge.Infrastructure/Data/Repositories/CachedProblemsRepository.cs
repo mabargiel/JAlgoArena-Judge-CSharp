@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Judge.Infrastructure.Generators;
 using Judge.Infrastructure.ProblemsSchema;
 using RestSharp;
@@ -20,41 +21,50 @@ namespace Judge.Infrastructure.Data.Repositories
             _skeletonCodeGenerator = skeletonCodeGenerator;
         }
 
-        public List<Problem> GetAll()
+        public async Task<List<Problem>> GetAllAsync()
         {
             var request = new RestRequest("problems", Method.GET);
-            var response = _restClient.Execute<List<Problem>>(request);
+            var r = await Task.Run(() =>
+            {
+                var response = _restClient.Execute<List<Problem>>(request);
 
-            var result = response?.Data ?? new List<Problem>();
-            result.ForEach(problem => _skeletonCodeGenerator.GenerateFor(problem));
+                var result = response?.Data ?? new List<Problem>();
+                result.ForEach(problem => _skeletonCodeGenerator.GenerateFor(problem));
 
-            _redisClient.StoreAll(result);
+                _redisClient.StoreAll(result);
 
-            return result;
+                return result;
+            });
+
+            return r;
         }
 
-        public Problem FindById(string id)
+        public async Task<Problem> FindByIdAsync(string id)
         {
-            var problem = _redisClient.GetById<Problem>(id);
-
-            if (problem == null)
+            var r = await Task.Run(() =>
             {
-                var request = new RestRequest($"problems/{id}", Method.GET);
-                var response = _restClient.Execute<Problem>(request);
-
-                problem = response?.Data;
+                var problem = _redisClient.GetById<Problem>(id);
                 if (problem == null)
-                    return null;
+                {
+                    var request = new RestRequest($"problems/{id}", Method.GET);
+                    var response = _restClient.Execute<Problem>(request);
 
-                _skeletonCodeGenerator.GenerateFor(problem);
-                _redisClient.Store(problem);
-            }
-            else
-            {
-                _skeletonCodeGenerator.GenerateFor(problem);
-            }
+                    problem = response?.Data;
+                    if (problem == null)
+                        return null;
 
-            return problem;
+                    _skeletonCodeGenerator.GenerateFor(problem);
+                    _redisClient.Store(problem);
+                }
+                else
+                {
+                    _skeletonCodeGenerator.GenerateFor(problem);
+                }
+
+                return problem;
+            });
+
+            return r;
         }
     }
 }

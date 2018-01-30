@@ -3,6 +3,9 @@ using Judge.Infrastructure.ProblemsSchema;
 
 namespace Judge.Infrastructure.Generators
 {
+    /// <summary>
+    ///     Generates C# base code using <see cref="Problem" /> meta data
+    /// </summary>
     public class CSharpSkeletonCodeGenerator : ISkeletonCodeGenerator
     {
         public void GenerateFor(Problem problem)

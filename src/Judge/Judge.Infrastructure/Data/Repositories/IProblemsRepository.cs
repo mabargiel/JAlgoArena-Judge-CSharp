@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Judge.Infrastructure.ProblemsSchema;
 
 namespace Judge.Infrastructure.Data.Repositories
 {
     public interface IProblemsRepository
     {
-        List<Problem> GetAll();
-        Problem FindById(string id);
+        Task<List<Problem>> GetAllAsync();
+        Task<Problem> FindByIdAsync(string id);
     }
 }

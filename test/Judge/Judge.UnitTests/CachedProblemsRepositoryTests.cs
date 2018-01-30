@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Judge.Infrastructure.Data.Repositories;
 using Judge.Infrastructure.Generators;
 using Judge.Infrastructure.ProblemsSchema;
@@ -31,7 +32,7 @@ namespace Judge.UnitTests
                 .x(() => repository = new CachedProblemsRepository(redisClient, restClient, skeletonCodeGenerator));
 
             "When I request all problems from the repository"
-                .x(() => problems = repository.GetAll());
+                .x(async () => problems = await repository.GetAllAsync());
 
             "Then problem meta datas are requested using api"
                 .x(() => restClient.Received().Execute<List<Problem>>(Arg.Is<RestRequest>(request =>
@@ -73,7 +74,7 @@ namespace Judge.UnitTests
                 .x(() => repository = new CachedProblemsRepository(redisClient, restClient, skeletonCodeGenerator));
 
             "When I request a problem from the repository"
-                .x(() => problem = repository.FindById("problemId"));
+                .x(async () => problem = await repository.FindByIdAsync("problemId"));
 
             "Then the problem meta data is requested using api"
                 .x(() => restClient.Received().Execute<Problem>(Arg.Is<RestRequest>(request =>
@@ -115,7 +116,7 @@ namespace Judge.UnitTests
                 .x(() => repository = new CachedProblemsRepository(redisClient, restClient, skeletonCodeGenerator));
 
             "When I request a problem from the repository"
-                .x(() => problem = repository.FindById("problemId"));
+                .x(async () => problem = await repository.FindByIdAsync("problemId"));
 
             "Then the problem meta data is NOT requested using api"
                 .x(() => restClient.DidNotReceive().Execute<Problem>(Arg.Any<RestRequest>()));
