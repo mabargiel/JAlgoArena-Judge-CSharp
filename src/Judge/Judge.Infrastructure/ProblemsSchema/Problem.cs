@@ -29,5 +29,10 @@ namespace Judge.Infrastructure.ProblemsSchema
             SkeletonCode = null;
             Level = level;
         }
+
+        public Problem()
+        {
+            //For RestClient
+        }
     }
 }

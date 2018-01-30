@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Judge.Infrastructure.Generators;
 using Judge.Infrastructure.ProblemsSchema;
 using RestSharp;
@@ -13,7 +12,8 @@ namespace Judge.Infrastructure.Data.Repositories
         private readonly IRestClient _restClient;
         private readonly ISkeletonCodeGenerator _skeletonCodeGenerator;
 
-        public CachedProblemsRepository(IRedisClient redisClient, IRestClient restClient, ISkeletonCodeGenerator skeletonCodeGenerator)
+        public CachedProblemsRepository(IRedisClient redisClient, IRestClient restClient,
+            ISkeletonCodeGenerator skeletonCodeGenerator)
         {
             _redisClient = redisClient;
             _restClient = restClient;
@@ -28,14 +28,33 @@ namespace Judge.Infrastructure.Data.Repositories
             var result = response?.Data ?? new List<Problem>();
             result.ForEach(problem => _skeletonCodeGenerator.GenerateFor(problem));
 
-            _redisClient.StoreAll<Problem>(result);
+            _redisClient.StoreAll(result);
 
             return result;
         }
 
-        public Problem FindById()
+        public Problem FindById(string id)
         {
-            throw new NotImplementedException();
+            var problem = _redisClient.GetById<Problem>(id);
+
+            if (problem == null)
+            {
+                var request = new RestRequest($"problems/{id}", Method.GET);
+                var response = _restClient.Execute<Problem>(request);
+
+                problem = response?.Data;
+                if (problem == null)
+                    return null;
+
+                _skeletonCodeGenerator.GenerateFor(problem);
+                _redisClient.Store(problem);
+            }
+            else
+            {
+                _skeletonCodeGenerator.GenerateFor(problem);
+            }
+
+            return problem;
         }
     }
 }
