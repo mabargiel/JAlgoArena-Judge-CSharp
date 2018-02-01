@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  judge.api:
+    image: judge.api
+    build:
+      context: .
+      dockerfile: src/Judge/Judge.API/Dockerfile

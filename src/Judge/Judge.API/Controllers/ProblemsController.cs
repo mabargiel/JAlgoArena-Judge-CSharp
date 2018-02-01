@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Judge.API.Models;
@@ -68,7 +70,11 @@ namespace Judge.API.Controllers
                 return BadRequest("The id parameter cannot be empty");
 
             if (!ModelState.IsValid)
-                return BadRequest("Invalid request body");
+            {
+                var modelErrors = ModelState.Values.SelectMany(x => x.Errors).ToList();
+                var error = string.Join(Environment.NewLine, modelErrors.Select(x => x.ErrorMessage).ToList());
+                return BadRequest(error);
+            }
 
             var problem = await _problemsRepository.FindByIdAsync(id);
             if (problem == null)

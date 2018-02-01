@@ -1,11 +1,21 @@
-FROM microsoft/aspnetcore-build:2.0 AS build-env
-WORKDIR app/
-COPY *.csproj ./
-RUN dotnet restore
-COPY ../../ ./
-RUN dotnet publish -c Release -o out
-
-FROM microsoft/aspnetcore:2.0
+FROM microsoft/aspnetcore:2.0 AS base
 WORKDIR /app
-COPY --from=build-env /app/out .
+EXPOSE 80
+
+FROM microsoft/aspnetcore-build:2.0 AS build
+WORKDIR /src
+COPY *.sln ./
+COPY src/Judge/Judge.API/Judge.API.csproj src/Judge/Judge.API/
+COPY src/Judge/Judge.Infrastructure/Judge.Infrastructure.csproj src/Judge/Judge.Infrastructure/
+RUN dotnet restore
+COPY . .
+WORKDIR /src/src/Judge/Judge.API
+RUN dotnet build -c Release -o /app
+
+FROM build AS publish
+RUN dotnet publish -c Release -o /app
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app .
 ENTRYPOINT ["dotnet", "Judge.API.dll"]
