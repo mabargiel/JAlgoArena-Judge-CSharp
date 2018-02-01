@@ -29,7 +29,7 @@ namespace Judge.Infrastructure.Data.Repositories
                 var response = _restClient.Execute<List<Problem>>(request);
 
                 var result = response?.Data ?? new List<Problem>();
-                result.ForEach(problem => _skeletonCodeGenerator.GenerateFor(problem));
+                result.ForEach(problem => problem.SkeletonCode = _skeletonCodeGenerator.Generate(problem.Function));
 
                 _redisClient.StoreAll(result);
 
@@ -44,22 +44,18 @@ namespace Judge.Infrastructure.Data.Repositories
             var r = await Task.Run(() =>
             {
                 var problem = _redisClient.GetById<Problem>(id);
+                if (problem != null) 
+                    return problem;
+
+                var request = new RestRequest($"problems/{id}", Method.GET);
+                var response = _restClient.Execute<Problem>(request);
+
+                problem = response?.Data;
                 if (problem == null)
-                {
-                    var request = new RestRequest($"problems/{id}", Method.GET);
-                    var response = _restClient.Execute<Problem>(request);
+                    return null;
 
-                    problem = response?.Data;
-                    if (problem == null)
-                        return null;
-
-                    _skeletonCodeGenerator.GenerateFor(problem);
-                    _redisClient.Store(problem);
-                }
-                else
-                {
-                    _skeletonCodeGenerator.GenerateFor(problem);
-                }
+                problem.SkeletonCode = _skeletonCodeGenerator.Generate(problem.Function);
+                _redisClient.Store(problem);
 
                 return problem;
             });

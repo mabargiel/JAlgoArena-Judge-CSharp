@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Judge.Infrastructure.ProblemsSchema;
 
 namespace Judge.Infrastructure.Generators
@@ -8,8 +10,33 @@ namespace Judge.Infrastructure.Generators
     /// </summary>
     public class CSharpSkeletonCodeGenerator : ISkeletonCodeGenerator
     {
-        public void GenerateFor(Problem problem)
+        public string Generate(Function function)
         {
+            string TranslateType(string javaType)
+            {
+                switch (javaType)
+                {
+                    case JavaTypes.Integer:
+                        return typeof(int).FullName;
+                    default:
+                        throw new NotSupportedException($"{javaType} is not supported");
+                }
+            }
+
+            string GenerateParametersString(Parameter[] parameters)
+            {
+                var parametersStringTmpList = new List<string>();
+
+                foreach (var parameter in parameters)
+                {
+                    var comment = !string.IsNullOrEmpty(parameter.Comment) ? $"/*{parameter.Comment}*/" : string.Empty;
+                    var s = $"{comment}{TranslateType(parameter.Type)} {parameter.Name}";
+                    parametersStringTmpList.Add(s);
+                }
+
+                return string.Join(", ", parametersStringTmpList);
+            }
+
             /*
                 TODO Implement SkeletonCode generator for C#
                 --------------------------------------------
@@ -28,7 +55,15 @@ namespace Judge.Infrastructure.Generators
                 NOTE2: Remove this comment before pull request creation
             */
 
-            throw new NotImplementedException();
+            var returnType = TranslateType(function.Return.Type);
+            var parametersString = GenerateParametersString(function.Parameters);
+
+
         }
+    }
+
+    public static class JavaTypes
+    {
+        public const string Integer = "int";
     }
 }
