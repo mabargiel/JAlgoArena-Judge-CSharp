@@ -7,6 +7,6 @@ namespace Judge.Infrastructure.Generators
     /// </summary>
     public interface ISkeletonCodeGenerator
     {
-        void GenerateFor(Problem problem);
+        string Generate(Function function);
     }
 }

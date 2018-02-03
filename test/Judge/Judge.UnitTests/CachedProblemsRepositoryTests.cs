@@ -63,7 +63,7 @@ namespace Judge.UnitTests
                 {
                     restClient = MockProblemsApiClient();
                     restClient.Execute<Problem>(Arg.Any<RestRequest>()).Returns(
-                        new RestResponse<Problem> {Data = new Problem("problemId", null, null, 0, 0, null, null, 0)});
+                        new RestResponse<Problem> {Data = new Problem {Id = "problemId"}});
                 });
 
             "And a skeleton code generator"
@@ -102,7 +102,15 @@ namespace Judge.UnitTests
                 {
                     redisClient = MockRedisClient();
                     redisClient.GetById<Problem>(Arg.Is<string>(o => o == "problemId"))
-                        .Returns(new Problem("problemId", null, null, 0, 0, null, null, 0));
+                        .Returns(info =>
+                        {
+                            var p = new Problem
+                            {
+                                Id = "problemId",
+                                SkeletonCode = "Some C# Code"
+                            };
+                            return p;
+                        });
                 });
 
             "And a REST api client"
@@ -139,8 +147,8 @@ namespace Judge.UnitTests
             var client = Substitute.For<IRestClient>();
             var testProblems = new List<Problem>
             {
-                new Problem(null, null, null, 0, 0, null, null, 0),
-                new Problem(null, null, null, 0, 0, null, null, 0)
+                new Problem(),
+                new Problem()
             };
             client.Execute<List<Problem>>(Arg.Any<IRestRequest>())
                 .Returns(new RestResponse<List<Problem>> {Data = testProblems});
@@ -154,9 +162,9 @@ namespace Judge.UnitTests
 
         private class TestSkeletonCodeGenerator : ISkeletonCodeGenerator
         {
-            public void GenerateFor(Problem problem)
+            public string Generate(Function function)
             {
-                problem.SkeletonCode = "Some C# string";
+                return "Some C# string";
             }
         }
     }

@@ -9,6 +9,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Resources\BinarySearch.cs" />
+    <Compile Remove="Resources\fib-problem-skeleton.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0" />
     <PackageReference Include="NSubstitute" Version="3.1.0" />
     <PackageReference Include="Shouldly" Version="3.0.0" />
@@ -19,12 +24,21 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Resources\BinarySearch.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\fib-problem-skeleton.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\..\src\Judge\Judge.API\Judge.API.csproj" />
     <ProjectReference Include="..\..\..\src\Judge\Judge.Infrastructure\Judge.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="fib-problem.json">
+    <None Update="Resources\fib-problem.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
