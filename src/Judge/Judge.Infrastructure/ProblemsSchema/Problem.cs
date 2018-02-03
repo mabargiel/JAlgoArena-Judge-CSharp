@@ -5,33 +5,14 @@ namespace Judge.Infrastructure.ProblemsSchema
     //read only
     public class Problem
     {
-        public Problem(string id, string title, string description, int timeLimit,
-            int memoryLimit, Function function, List<TestCase> testCases, int level)
-        {
-            Id = id;
-            Title = title;
-            Description = description;
-            TimeLimit = timeLimit;
-            MemoryLimit = memoryLimit;
-            Function = function;
-            TestCases = testCases;
-            SkeletonCode = null;
-            Level = level;
-        }
-
-        public Problem()
-        {
-            //For RestClient
-        }
-
-        public string Id { get; }
-        public string Title { get; }
-        public string Description { get; }
-        public int TimeLimit { get; }
-        public int MemoryLimit { get; }
-        public Function Function { get; }
-        public List<TestCase> TestCases { get; }
+        public string Id { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public int TimeLimit { get; set; }
+        public int MemoryLimit { get; set; }
+        public Function Function { get; set; }
+        public List<TestCase> TestCases { get; set; }
         public string SkeletonCode { get; set; }
-        public int Level { get; }
+        public int Level { get; set; }
     }
 }
