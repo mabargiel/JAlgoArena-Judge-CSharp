@@ -2,7 +2,7 @@
 using System.Linq;
 using Judge.Infrastructure.ProblemsSchema;
 
-namespace Judge.Infrastructure.Generators
+namespace Judge.Infrastructure.LangGenerators
 {
     public class CSharpSkeletonCodeGenerator : ISkeletonCodeGenerator
     {
@@ -15,7 +15,7 @@ namespace Judge.Infrastructure.Generators
                 return null;
 
             return
-                $@"public class Solution
+$@"public class Solution
 {{
   {FunctionComment()}
   {FunctionSygnature()}

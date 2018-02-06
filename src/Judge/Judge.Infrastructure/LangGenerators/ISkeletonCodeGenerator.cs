@@ -1,6 +1,6 @@
 ﻿using Judge.Infrastructure.ProblemsSchema;
 
-namespace Judge.Infrastructure.Generators
+namespace Judge.Infrastructure.LangGenerators
 {
     /// <summary>
     ///     Generates base code in specified language (depends on implementation)
