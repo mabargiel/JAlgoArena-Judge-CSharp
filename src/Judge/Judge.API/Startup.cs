@@ -1,7 +1,6 @@
 using AutoMapper;
 using FluentValidation.AspNetCore;
 using Judge.Infrastructure.Data.Repositories;
-using Judge.Infrastructure.Generators;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;

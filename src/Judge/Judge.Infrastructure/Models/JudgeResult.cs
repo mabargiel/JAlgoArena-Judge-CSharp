@@ -1,9 +1,9 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace Judge.API.Models
+namespace Judge.Infrastructure.Models
 {
-    public class JudgeResultDto
+    public class JudgeResult
     {
         [JsonProperty("status_code")]
         [JsonConverter(typeof(StringEnumConverter))]

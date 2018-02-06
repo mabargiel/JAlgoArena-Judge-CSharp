@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Judge.Infrastructure.Generators;
+using Judge.Infrastructure.LangGenerators;
 using Judge.Infrastructure.ProblemsSchema;
 using RestSharp;
 using ServiceStack.Redis;
@@ -29,7 +29,8 @@ namespace Judge.Infrastructure.Data.Repositories
                 var response = _restClient.Execute<List<Problem>>(request);
 
                 var result = response?.Data ?? new List<Problem>();
-                result.ForEach(problem => problem.SkeletonCode = _skeletonCodeGenerator.Generate(problem.Function));
+                result.ForEach(problem =>
+                    problem.SkeletonCode.Add("C#", _skeletonCodeGenerator.Generate(problem.Function)));
 
                 _redisClient.StoreAll(result);
 
@@ -44,7 +45,7 @@ namespace Judge.Infrastructure.Data.Repositories
             var r = await Task.Run(() =>
             {
                 var problem = _redisClient.GetById<Problem>(id);
-                if (problem != null) 
+                if (problem != null)
                     return problem;
 
                 var request = new RestRequest($"problems/{id}", Method.GET);

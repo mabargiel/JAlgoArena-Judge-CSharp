@@ -15,7 +15,7 @@ namespace Judge.Infrastructure.LangGenerators
                 return null;
 
             return
-$@"public class Solution
+                $@"public class Solution
 {{
   {FunctionComment()}
   {FunctionSygnature()}

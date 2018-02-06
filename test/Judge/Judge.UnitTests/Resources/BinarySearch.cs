@@ -1,6 +1,6 @@
-﻿public class Solution
+public class Solution
 {
-    public int BinarySearch(int[] arr, int n)
+    public int BinarySearch (int[] arr, int n)
     {
         if (arr == null || arr.length == 0) return -1;
 

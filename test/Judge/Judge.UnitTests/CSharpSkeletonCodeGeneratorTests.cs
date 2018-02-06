@@ -1,7 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using Judge.Infrastructure.Generators;
 using Judge.Infrastructure.ProblemsSchema;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -13,7 +12,6 @@ namespace Judge.UnitTests
     public class CSharpSkeletonCodeGeneratorTests
     {
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="func"></param>
         /// <param name="generator"></param>

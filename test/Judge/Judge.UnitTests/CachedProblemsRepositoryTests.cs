@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using Judge.Infrastructure.Data.Repositories;
-using Judge.Infrastructure.Generators;
 using Judge.Infrastructure.ProblemsSchema;
 using NSubstitute;
 using RestSharp;
