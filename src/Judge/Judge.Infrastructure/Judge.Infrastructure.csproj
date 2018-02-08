@@ -5,13 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="2.6.1" />
-    <PackageReference Include="RestSharp" Version="106.2.1" />
-    <PackageReference Include="ServiceStack.Redis.Core" Version="5.0.2" />
+    <Compile Remove="Generators\**" />
+    <EmbeddedResource Remove="Generators\**" />
+    <None Remove="Generators\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Generators\Helpers\" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="2.6.1" />
+    <PackageReference Include="RestSharp" Version="106.2.1" />
+    <PackageReference Include="ServiceStack.Redis.Core" Version="5.0.2" />
   </ItemGroup>
 
   <ItemGroup>
