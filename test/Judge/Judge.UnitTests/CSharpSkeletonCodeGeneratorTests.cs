@@ -1,7 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using Judge.Infrastructure.Generators;
+using Judge.Infrastructure.LangGenerators;
 using Judge.Infrastructure.ProblemsSchema;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -13,14 +13,13 @@ namespace Judge.UnitTests
     public class CSharpSkeletonCodeGeneratorTests
     {
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="func"></param>
         /// <param name="generator"></param>
         /// <param name="skeletonCode"></param>
         [Scenario]
         public void BaseCodeGenerationScenario(Function func, CSharpSkeletonCodeGenerator generator,
-            string skeletonCode)
+            (string lang, string code) skeletonCode)
         {
             "Given the function meta data"
                 .x(() => func = CreateFunction());
@@ -29,10 +28,14 @@ namespace Judge.UnitTests
                 .x(() => generator = new CSharpSkeletonCodeGenerator());
 
             "When I launch generate"
-                .x(() => skeletonCode = generator.Generate(func));
+                .x(() =>
+                {
+                    var (lang, code) = generator.Generate(func);
+                    skeletonCode = (lang, code);
+                });
 
             "Then a c# code with an empty method that matches the function schema is generated"
-                .x(() => Assert.Equal(File.ReadAllText("./Resources/fib-problem-skeleton.cs"), skeletonCode));
+                .x(() => Assert.Equal(File.ReadAllText("./Resources/fib-problem-skeleton.cs"), skeletonCode.code));
         }
 
         private Function CreateFunction()
