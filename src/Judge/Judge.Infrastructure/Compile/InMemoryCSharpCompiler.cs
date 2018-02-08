@@ -24,8 +24,8 @@ namespace Judge.Infrastructure.Compile
 
                 if (!result.Success)
                 {
-                    var failures = result.Diagnostics.Where(diagnostic => 
-                        diagnostic.IsWarningAsError || 
+                    var failures = result.Diagnostics.Where(diagnostic =>
+                        diagnostic.IsWarningAsError ||
                         diagnostic.Severity == DiagnosticSeverity.Error).ToArray();
 
                     throw new ProblemCompilationException("Compilation Failed", failures.ToImmutableArray());

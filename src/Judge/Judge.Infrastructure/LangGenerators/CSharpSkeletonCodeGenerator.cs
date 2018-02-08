@@ -15,7 +15,7 @@ namespace Judge.Infrastructure.LangGenerators
                 throw new ArgumentNullException(nameof(function));
 
             return ("C#",
-$@"public class Solution
+                $@"public class Solution
 {{
   {FunctionComment()}
   {FunctionSygnature()}
