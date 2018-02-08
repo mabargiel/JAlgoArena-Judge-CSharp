@@ -30,7 +30,10 @@ namespace Judge.Infrastructure.Data.Repositories
 
                 var result = response?.Data ?? new List<Problem>();
                 result.ForEach(problem =>
-                    problem.SkeletonCode.Add("C#", _skeletonCodeGenerator.Generate(problem.Function)));
+                {
+                    var (lang, code) = _skeletonCodeGenerator.Generate(problem.Function);
+                    problem.SkeletonCode.Add(lang, code);
+                });
 
                 _redisClient.StoreAll(result);
 
@@ -55,7 +58,8 @@ namespace Judge.Infrastructure.Data.Repositories
                 if (problem == null)
                     return null;
 
-                problem.SkeletonCode = _skeletonCodeGenerator.Generate(problem.Function);
+                var (lang, code) = _skeletonCodeGenerator.Generate(problem.Function);
+                problem.SkeletonCode.Add(lang, code);
                 _redisClient.Store(problem);
 
                 return problem;

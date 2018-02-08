@@ -9,20 +9,20 @@ namespace Judge.Infrastructure.LangGenerators
         /// <summary>
         ///     Generates C# base code using <see cref="Problem" /> meta data
         /// </summary>
-        public string Generate(Function function)
+        public (string, string) Generate(Function function)
         {
             if (function == null)
-                return null;
+                throw new ArgumentNullException(nameof(function));
 
-            return
-                $@"public class Solution
+            return ("C#",
+$@"public class Solution
 {{
   {FunctionComment()}
   {FunctionSygnature()}
   {{
     //Write your code here.
   }}
-}}";
+}}");
 
             //HELPERS
             string ParamsComment()

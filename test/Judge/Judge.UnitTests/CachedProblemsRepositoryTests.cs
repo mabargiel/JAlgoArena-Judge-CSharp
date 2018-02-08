@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Judge.Infrastructure.Data.Repositories;
+using Judge.Infrastructure.LangGenerators;
 using Judge.Infrastructure.ProblemsSchema;
 using NSubstitute;
 using RestSharp;
@@ -38,14 +39,14 @@ namespace Judge.UnitTests
 
             "And problems with skeleton code generated are cached by the redis client"
                 .x(() => redisClient.Received().StoreAll(Arg.Is<List<Problem>>(list =>
-                    list.All(problem => !string.IsNullOrEmpty(problem.SkeletonCode)))));
+                    list.All(problem => problem.SkeletonCode.ContainsKey("C#")))));
 
             "And the repository returns all problems"
                 .x(() =>
                 {
                     var problemsAsArray = problems as Problem[] ?? problems.ToArray();
                     problemsAsArray.Length.ShouldBe(2);
-                    problemsAsArray.ShouldAllBe(problem => !string.IsNullOrEmpty(problem.SkeletonCode));
+                    problemsAsArray.ShouldAllBe(problem => problem.SkeletonCode.ContainsKey("C#"));
                 });
         }
 
@@ -87,7 +88,7 @@ namespace Judge.UnitTests
                 {
                     problem.ShouldNotBe(null);
                     problem.Id.ShouldBe("problemId");
-                    problem.SkeletonCode.ShouldNotBeNullOrEmpty();
+                    problem.SkeletonCode.ShouldNotBeNull();
                 });
         }
 
@@ -106,7 +107,7 @@ namespace Judge.UnitTests
                             var p = new Problem
                             {
                                 Id = "problemId",
-                                SkeletonCode = "Some C# Code"
+                                SkeletonCode = new Dictionary<string, string> {{"C#", "Some C# Code"}}
                             };
                             return p;
                         });
@@ -132,7 +133,7 @@ namespace Judge.UnitTests
                 {
                     problem.ShouldNotBe(null);
                     problem.Id.ShouldBe("problemId");
-                    problem.SkeletonCode.ShouldNotBeNullOrEmpty();
+                    problem.SkeletonCode.ShouldNotBeNull();
                 });
         }
 
@@ -161,9 +162,9 @@ namespace Judge.UnitTests
 
         private class TestSkeletonCodeGenerator : ISkeletonCodeGenerator
         {
-            public string Generate(Function function)
+            public (string, string) Generate(Function function)
             {
-                return "Some C# string";
+                return ("C#", "Some C# string");
             }
         }
     }

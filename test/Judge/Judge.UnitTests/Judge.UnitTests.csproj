@@ -9,7 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Resources\BinarySearch.cs" />
     <Compile Remove="Resources\fib-problem-skeleton.cs" />
   </ItemGroup>
 
@@ -24,9 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Resources\BinarySearch.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="Resources\fib-problem-skeleton.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

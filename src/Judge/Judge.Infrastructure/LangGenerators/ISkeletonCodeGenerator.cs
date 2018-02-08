@@ -7,6 +7,6 @@ namespace Judge.Infrastructure.LangGenerators
     /// </summary>
     public interface ISkeletonCodeGenerator
     {
-        string Generate(Function function);
+        (string, string) Generate(Function function);
     }
 }
